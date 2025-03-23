@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Send } from 'lucide-react'
+import ChatMessage from '@/components/chat-message'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import ChatSidebar from '@/components/chat-sidebar'
-import ChatMessage from '@/components/chat-message'
+import { motion } from 'framer-motion'
+import { Send } from 'lucide-react'
+import Image from 'next/image'
+import { useState } from 'react'
 
 interface Message {
   id: string
@@ -18,7 +18,7 @@ interface Message {
 export default function Home() {
 
   const personas = ['Hayashii', 'Bruninho So7'];
-  const [selectedPersona, setSelectedPersona] = useState(personas[Math.floor(Math.random() * personas.length)]);
+  const selectedPersona = personas[Math.floor(Math.random() * personas.length)];
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -107,7 +107,7 @@ export default function Home() {
 
       <main className="flex flex-col w-full h-full overflow-hidden relative">
         <div className='pointer-events-none select-none opacity-30 absolute top-0 bottom-0 left-0 right-0 z-10 flex gap-2 flex-col items-center justify-center'>
-          <img src="logo.jpg" alt="CHAT DPP" className="w-40 h-40 rounded-full" />
+          <Image src="logo.jpg" alt="CHAT DPP" className="w-40 h-40 rounded-full" />
           <p className='text-2xl font-bold text-center text-white'>
             CHAT DPP
           </p>

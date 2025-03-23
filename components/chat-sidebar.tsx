@@ -1,22 +1,20 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Menu, X, Youtube, History, Settings, MessageSquare, Gamepad2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Sidebar,
   SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
 } from '@/components/ui/sidebar'
+import { Gamepad2, History, MessageSquare, Settings } from 'lucide-react'
 
 export default function ChatSidebar() {
   const gameCategories = [
@@ -25,7 +23,7 @@ export default function ChatSidebar() {
     { name: 'Origins', count: 8 },
     { name: 'Outros Jogos', count: 78 }
   ]
-  
+
   return (
     <SidebarProvider>
       <Sidebar className="border-r">
@@ -41,7 +39,7 @@ export default function ChatSidebar() {
             <SidebarTrigger className="ml-auto md:hidden" />
           </div>
         </SidebarHeader>
-        
+
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -50,7 +48,7 @@ export default function ChatSidebar() {
                 Nova Conversa
               </SidebarMenuButton>
             </SidebarMenuItem>
-            
+
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <History className="mr-2 h-4 w-4" />
@@ -58,7 +56,7 @@ export default function ChatSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
-          
+
           <SidebarGroup>
             <SidebarGroupLabel>Categorias de Conteúdo</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -76,7 +74,7 @@ export default function ChatSidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          
+
           <div className="px-4 py-2 mt-4">
             <div className="rounded-md bg-orange-500/10 p-3 border border-orange-500/20">
               <div className="font-medium">Desce Pro Play</div>
@@ -88,7 +86,7 @@ export default function ChatSidebar() {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-auto p-4">
             <Button variant="outline" className="w-full justify-start" size="sm">
               <Settings className="mr-2 h-4 w-4" />

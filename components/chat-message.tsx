@@ -1,9 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 import { User } from 'lucide-react'
+import Image from 'next/image'
 
 interface Message {
   id: string
@@ -35,7 +36,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             <User />
           </AvatarFallback>
         ) : (
-          <img src="logo.jpg" alt="CHAT DPP" className="rounded-full" />
+          <Image src="logo.jpg" alt="CHAT DPP" className="rounded-full" />
         )}
       </Avatar>
 
