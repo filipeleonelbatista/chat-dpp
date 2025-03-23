@@ -1,103 +1,161 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Send } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import ChatSidebar from '@/components/chat-sidebar'
+import ChatMessage from '@/components/chat-message'
+
+interface Message {
+  id: string
+  content: string
+  role: 'user' | 'assistant'
+  timestamp: Date
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const personas = ['Hayashii', 'Bruninho So7'];
+  const [selectedPersona, setSelectedPersona] = useState(personas[Math.floor(Math.random() * personas.length)]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      content: 'Olá! Pergunte-me qualquer coisa sobre o canal Desce Pro Play. Posso falar sobre GTA Online, Easter Eggs, e outros conteúdos do canal.',
+      role: 'assistant',
+      timestamp: new Date()
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  // Estado para controlar se o contexto inicial já foi carregado
+  const [initialContextLoaded, setInitialContextLoaded] = useState(false);
+
+  const handleSendMessage = async () => {
+    if (!input.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: input,
+      role: 'user',
+      timestamp: new Date()
+    };
+
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      // Mapeia somente os dados relevantes para o backend
+      const apiMessages = updatedMessages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
+      // Define o flag includeInitialContext somente se ainda não foi carregado
+      const payload = {
+        messages: apiMessages,
+        page: 1,
+        includeInitialContext: !initialContextLoaded,
+        selectedPersona: selectedPersona
+      };
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro na resposta da API');
+      }
+
+      const data = await response.json();
+
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: data.response,
+        role: 'assistant',
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+      if (!initialContextLoaded) setInitialContextLoaded(true);
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.',
+        role: 'assistant',
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-background">
+      {/* <ChatSidebar /> */}
+
+      <main className="flex flex-col w-full h-full overflow-hidden relative">
+        <div className='pointer-events-none select-none opacity-30 absolute top-0 bottom-0 left-0 right-0 z-10 flex gap-2 flex-col items-center justify-center'>
+          <img src="logo.jpg" alt="CHAT DPP" className="w-40 h-40 rounded-full" />
+          <p className='text-2xl font-bold text-center text-white'>
+            CHAT DPP
+          </p>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 z-20">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="max-w-4xl mx-auto space-y-4"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            {messages.map((message) => (
+              <ChatMessage key={message.id} message={message} />
+            ))}
+
+            {isLoading && (
+              <div className="flex items-center justify-center py-4">
+                <div className="animate-pulse text-muted-foreground">
+                  Processando resposta...
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </div>
+
+        <div className="border-t p-4">
+          <div className="max-w-4xl mx-auto flex gap-2">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Pergunte algo sobre o Desce Pro Play..."
+              className="flex-1"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <Button
+              onClick={handleSendMessage}
+              disabled={isLoading || !input.trim()}
+              size="icon"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
