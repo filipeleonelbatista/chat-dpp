@@ -107,7 +107,7 @@ export default function Home() {
 
       <main className="flex flex-col w-full h-full overflow-hidden relative">
         <div className='pointer-events-none select-none opacity-30 absolute top-0 bottom-0 left-0 right-0 z-10 flex gap-2 flex-col items-center justify-center'>
-          <Image src="logo.jpg" alt="CHAT DPP" className="w-40 h-40 rounded-full" />
+          <Image src="/logo.jpg" alt="CHAT DPP" width={250} height={250} className="w-40 h-40 rounded-full" />
           <p className='text-2xl font-bold text-center text-white'>
             CHAT DPP
           </p>
@@ -154,6 +154,9 @@ export default function Home() {
               <Send className="h-4 w-4" />
             </Button>
           </div>
+          <p className="max-w-4xl text-center text-xs text-muted-foreground mt-2">
+            Desenvolvido por <a href="https://linkedin.com/in/filipeleonelbatista" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">filipeleonelbatista</a> o maior exemplo do chat do @ColonoGamer
+          </p>
         </div>
       </main>
     </div>

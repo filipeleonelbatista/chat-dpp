@@ -36,7 +36,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             <User />
           </AvatarFallback>
         ) : (
-          <Image src="logo.jpg" alt="CHAT DPP" className="rounded-full" />
+          <Image src="/logo.jpg" alt="CHAT DPP" width="100" height="100" className="rounded-full" />
         )}
       </Avatar>
 
