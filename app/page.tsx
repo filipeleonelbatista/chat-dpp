@@ -57,7 +57,6 @@ export default function Home() {
         messages: apiMessages,
         page: 1,
         includeInitialContext: !initialContextLoaded,
-        selectedPersona: 'Filipe de Leonel Batista'
       };
 
       const response = await fetch('/api/chat', {

@@ -138,8 +138,7 @@ async function getVideosContext(): Promise<string> {
 
 export async function POST(req: Request) {
   try {
-    const { messages, includeInitialContext, selectedPersona }: RequestBody = await req.json();
-
+    const { messages, includeInitialContext }: RequestBody = await req.json();
     let youtubeContext = '';
     if (includeInitialContext) {
       youtubeContext = await getVideosContext();
