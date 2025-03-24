@@ -27,7 +27,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
       transition={{ duration: 0.3 }}
       className={cn(
         "flex items-start gap-3 rounded-lg p-4",
-        isUser ? "bg-secondary/60" : "bg-orange-500/60"
+        isUser ? "bg-secondary/60" : "bg-blue-500/60"
       )}
     >
       <Avatar>
@@ -36,7 +36,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             <User />
           </AvatarFallback>
         ) : (
-          <Image src="/logo.jpg" alt="CHAT DPP" width="100" height="100" className="rounded-full" />
+          <Image src="https://github.com/filipeleonelbatista.png" alt="CHAT DPP" width="100" height="100" className="rounded-full" />
         )}
       </Avatar>
 

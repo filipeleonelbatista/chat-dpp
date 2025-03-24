@@ -17,12 +17,10 @@ interface Message {
 
 export default function Home() {
 
-  const personas = ['Hayashii', 'Bruninho So7'];
-  const selectedPersona = personas[Math.floor(Math.random() * personas.length)];
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: 'Olá! Pergunte-me qualquer coisa sobre o canal Desce Pro Play. Posso falar sobre GTA Online, Easter Eggs, e outros conteúdos do canal.',
+      content: 'Olá! Pergunte-me qualquer coisa sobre o meu canal.',
       role: 'assistant',
       timestamp: new Date()
     }
@@ -59,7 +57,7 @@ export default function Home() {
         messages: apiMessages,
         page: 1,
         includeInitialContext: !initialContextLoaded,
-        selectedPersona: selectedPersona
+        selectedPersona: 'Filipe de Leonel Batista'
       };
 
       const response = await fetch('/api/chat', {
@@ -107,9 +105,9 @@ export default function Home() {
 
       <main className="flex flex-col w-full h-full overflow-hidden relative">
         <div className='pointer-events-none select-none opacity-30 absolute top-0 bottom-0 left-0 right-0 z-10 flex gap-2 flex-col items-center justify-center'>
-          <Image src="/logo.jpg" alt="CHAT DPP" width={250} height={250} className="w-40 h-40 rounded-full" />
+          <Image src="https://github.com/filipeleonelbatista.png" alt="CHAT DPP" width={250} height={250} className="w-40 h-40 rounded-full" />
           <p className='text-2xl font-bold text-center text-white'>
-            CHAT DPP
+            MEU CANAL
           </p>
         </div>
         <div className="flex-1 overflow-y-auto p-4 z-20">
@@ -137,7 +135,7 @@ export default function Home() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Pergunte algo sobre o Desce Pro Play..."
+              placeholder="Pergunte algo sobre o canal..."
               className="flex-1"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -155,7 +153,7 @@ export default function Home() {
             </Button>
           </div>
           <p className="max-w-4xl text-center text-xs text-muted-foreground mt-2">
-            Desenvolvido por <a href="https://linkedin.com/in/filipeleonelbatista" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">filipeleonelbatista</a> o maior exemplo do chat do @ColonoGamer
+            Desenvolvido por <a href="https://linkedin.com/in/filipeleonelbatista" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Filipe de Leonel Batista</a>
           </p>
         </div>
       </main>
