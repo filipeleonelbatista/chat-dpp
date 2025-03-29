@@ -104,7 +104,7 @@ export default function Home() {
 
       <main className="flex flex-col w-full h-full overflow-hidden relative">
         <div className='pointer-events-none select-none opacity-30 absolute top-0 bottom-0 left-0 right-0 z-10 flex gap-2 flex-col items-center justify-center'>
-          <Image src="https://github.com/filipeleonelbatista.png" alt="CHAT DPP" width={250} height={250} className="w-40 h-40 rounded-full" />
+          <Image src="https://github.com/filipeleonelbatista.png" alt="Chat filipeleonelbatista" width={250} height={250} className="w-40 h-40 rounded-full" />
           <p className='text-2xl font-bold text-center text-white'>
             MEU CANAL
           </p>

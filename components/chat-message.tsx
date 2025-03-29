@@ -36,14 +36,14 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             <User />
           </AvatarFallback>
         ) : (
-          <Image src="https://github.com/filipeleonelbatista.png" alt="CHAT DPP" width="100" height="100" className="rounded-full" />
+          <Image src="https://github.com/filipeleonelbatista.png" alt="filipeleonelbatista" width="100" height="100" className="rounded-full" />
         )}
       </Avatar>
 
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <h3 className="font-medium">
-            <b>{isUser ? 'Você' : 'Chat DPP'}</b>
+            <b>{isUser ? 'Você' : 'filipeleonelbatista'}</b>
           </h3>
           <span className="text-xs text-muted-foreground">
             {formatTime(message.timestamp)}

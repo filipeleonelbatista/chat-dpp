@@ -33,8 +33,8 @@ export default function ChatSidebar() {
               <Gamepad2 className="h-4 w-4" />
             </div>
             <div>
-              <h1 className="text-lg font-bold">Chat DPP</h1>
-              <p className="text-xs text-muted-foreground">Desce Pro Play</p>
+              <h1 className="text-lg font-bold">filipeleonelbatista</h1>
+              <p className="text-xs text-muted-foreground">filipeleonelbatista</p>
             </div>
             <SidebarTrigger className="ml-auto md:hidden" />
           </div>
